@@ -15,7 +15,7 @@ class TestCafeXMenu extends FunSuite with BeforeAndAfter {
   test("order Cola and Coffee") {
     testCafeXMenu.loadMenu()
     val orderedItems = Array("Cola", "Coffee")
-    assert(testCafeXMenu.calculateBill(orderedItems) == 1.50F)
+    assert(testCafeXMenu.calculateBill(orderedItems) == 1.50)
   }
   
   test("no order placed") {
@@ -34,5 +34,35 @@ class TestCafeXMenu extends FunSuite with BeforeAndAfter {
       testCafeXMenu.calculateBill(orderedItems)
     }
     assert(thrown.getMessage == "Invalid item passed: wrongItem")
+  }
+  
+  test("only drinks ordered") {
+    testCafeXMenu.loadMenu()
+    val orderedItems = Array("Cola", "Coffee")
+    assert(testCafeXMenu.calculateBill(orderedItems) == 1.50)
+  }
+  
+  test("hot food ordered") {
+    testCafeXMenu.loadMenu()
+    val orderedItems = Array("Cola", "Coffee", "Cheese Sandwich")
+    assert(testCafeXMenu.calculateBill(orderedItems) == 4.20)
+  }
+  
+  test("cold food ordered") {
+    testCafeXMenu.loadMenu()
+    val orderedItems = Array("Cola", "Cheese Sandwich")
+    assert(testCafeXMenu.calculateBill(orderedItems) == 2.75)
+  }
+  
+  test("maximum 20£ service charge") {
+    testCafeXMenu.loadMenu()
+    val orderedItems = Array("Steak Sandwich", "Steak Sandwich", "Steak Sandwich", "Steak Sandwich", 
+        "Steak Sandwich", "Steak Sandwich", "Steak Sandwich", "Steak Sandwich",
+        "Steak Sandwich", "Steak Sandwich", "Steak Sandwich",
+        "Steak Sandwich","Steak Sandwich", "Steak Sandwich", "Steak Sandwich", "Steak Sandwich", 
+        "Steak Sandwich", "Steak Sandwich", "Steak Sandwich", "Steak Sandwich",
+        "Steak Sandwich", "Steak Sandwich", "Steak Sandwich",
+        "Steak Sandwich")
+    assert(testCafeXMenu.calculateBill(orderedItems) == 128)
   }
 }
